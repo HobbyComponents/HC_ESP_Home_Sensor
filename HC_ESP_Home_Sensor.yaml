@@ -1,0 +1,115 @@
+# These substitutions allow the end user to override certain values
+substitutions:
+  name: "hcesp-home-sensor"
+  friendly_name: "HC ESP Home Sensor"
+
+
+esphome:
+  name: "${name}"
+  # Friendly names are used where appropriate in Home Assistant
+  friendly_name: "${friendly_name}"
+  # Automatically add the mac address to the name
+  # so you can use a single firmware for all devices
+  name_add_mac_suffix: true
+
+  # This will allow for (future) project identification,
+  # configuration and updates.
+  project:
+    name: hobbycomponents.HCESP_Home_Sensor
+    version: 1.0.0
+
+
+
+  # Configure output pins on startup
+  on_boot: 
+    - priority: 90
+      then: 
+      - output.turn_on: ldr_power
+      - switch.turn_off: led_state
+      
+
+esp8266:
+  board: esp01_1m
+
+# To be able to get logs from the device via serial and api.
+# logger:
+
+# Enable Home Assistant API
+api:
+
+# OTA is required for Over-the-Air updating
+ota:
+
+# This should point to the public location of this yaml file.
+dashboard_import:
+  package_import_url: github://HobbyComponents/HC_ESP_Home_Sensor/HC_ESP_Home_Sensor.yaml@v1
+  import_full_config: false # or true
+
+
+
+wifi:
+  # Set up a wifi access point
+  ap:
+    password: "12345678"
+
+
+# In combination with the `ap` this allows the user
+# to provision wifi credentials to the device.
+captive_portal:
+
+
+sensor:
+  # DHT22 Temperature & humidity sensor
+  - platform: dht
+    model: DHT22
+    pin: 12
+    temperature:
+      name: "ESP Home Sensor Temperature"
+    #  unit_of_measurement: oC
+    #  accuracy_decimals: 1
+    humidity:
+      name: "ESP Home Sensor Humidity"
+    #  unit_of_measurement: RH%
+      accuracy_decimals: 1
+    update_interval: 60s
+
+  # LDR brightness sensor
+  - platform: adc
+    name: "ESP Home Sensor Brightness"
+    icon: "mdi:white-balance-sunny"
+    pin: A0
+    unit_of_measurement: '%'
+    accuracy_decimals: 1
+    filters:
+      - calibrate_linear:
+         method: least_squares
+         datapoints:
+          - 0.0 -> 100
+          - 1 -> 0
+      #- sliding_window_moving_average:
+      #    window_size: 10
+      #    send_every: 1
+    update_interval: 60s
+
+
+binary_sensor:
+  # PIR motion sensor
+  - platform: gpio
+    name: "ESP Home Sensor Motion"
+    pin: GPIO5
+    device_class: motion
+
+
+switch:
+  # Module LED
+  - platform: gpio
+    name: "ESP Home Sensor LED"
+    icon: "mdi:led-on"
+    pin: GPIO13
+    id: led_state
+
+output:
+  # LDR is powered via GPIO pin 4. This needs to be output high before readig LDR
+  - platform: gpio
+    pin: GPIO4
+    id: ldr_power
