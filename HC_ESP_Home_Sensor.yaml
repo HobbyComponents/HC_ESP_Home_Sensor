@@ -16,7 +16,7 @@ esphome:
   # configuration and updates.
   project:
     name: hobbycomponents.HCESP_Home_Sensor
-    version: 1.0.0
+    version: 1.0.1
 
 
 
@@ -39,10 +39,11 @@ api:
 
 # OTA is required for Over-the-Air updating
 ota:
+  platform: esphome
 
 # This should point to the public location of this yaml file.
 dashboard_import:
-  package_import_url: github://HobbyComponents/HC_ESP_Home_Sensor/HC_ESP_Home_Sensor.yaml@v1
+  package_import_url: github://HobbyComponents/HC_ESP_Home_Sensor/HC_ESP_Home_Sensor.yaml@main
   import_full_config: false # or true
 
 
