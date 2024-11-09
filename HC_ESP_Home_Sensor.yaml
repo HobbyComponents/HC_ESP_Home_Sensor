@@ -63,6 +63,7 @@ captive_portal:
 sensor:
   # DHT22 Temperature & humidity sensor
   - platform: dht
+    id: dht_sensor
     model: DHT22
     pin: 12
     temperature:
@@ -77,6 +78,7 @@ sensor:
 
   # LDR brightness sensor
   - platform: adc
+    id: brightness_sensor
     name: "Brightness"
     icon: "mdi:white-balance-sunny"
     pin: A0
@@ -97,6 +99,7 @@ sensor:
 binary_sensor:
   # PIR motion sensor
   - platform: gpio
+    id: motion_sensor
     name: "Motion"
     pin: GPIO5
     device_class: motion
