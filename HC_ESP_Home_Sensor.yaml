@@ -66,18 +66,18 @@ sensor:
     model: DHT22
     pin: 12
     temperature:
-      name: "ESP Home Sensor Temperature"
+      name: "Temperature"
     #  unit_of_measurement: oC
     #  accuracy_decimals: 1
     humidity:
-      name: "ESP Home Sensor Humidity"
+      name: "Humidity"
     #  unit_of_measurement: RH%
       accuracy_decimals: 1
     update_interval: 60s
 
   # LDR brightness sensor
   - platform: adc
-    name: "ESP Home Sensor Brightness"
+    name: "Brightness"
     icon: "mdi:white-balance-sunny"
     pin: A0
     unit_of_measurement: '%'
@@ -97,7 +97,7 @@ sensor:
 binary_sensor:
   # PIR motion sensor
   - platform: gpio
-    name: "ESP Home Sensor Motion"
+    name: "Motion"
     pin: GPIO5
     device_class: motion
 
@@ -105,7 +105,7 @@ binary_sensor:
 switch:
   # Module LED
   - platform: gpio
-    name: "ESP Home Sensor LED"
+    name: "LED"
     icon: "mdi:led-on"
     pin: GPIO13
     id: led_state
